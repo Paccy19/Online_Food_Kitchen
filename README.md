@@ -12,7 +12,7 @@ while customers discover, order, pay and track food from vendors around them.
 | Folder | Contents |
 | --- | --- |
 | `frontend/` | Mobile-first React (Vite) customer app — homepage feed, category navigation, nearby vendors, global search, vendor storefronts. See [frontend/README.md](frontend/README.md) for setup, environment variables and how to test location-based features. |
-| `backend/` | API backend (in development). |
+| `backend/` | Node/Express API for discovery, OTP customer auth, cart, wishlist, checkout, orders, and tracking. |
 
 ## Quick start (frontend)
 
@@ -30,3 +30,5 @@ full contract and mock-mode details):
 - `GET /api/v1/home/vendors/nearby?lat={lat}&lng={lng}&radius={km}&category_id={id}`
 - `GET /api/v1/home/search?q={query}&lat={lat}&lng={lng}`
 - `GET /api/v1/vendors/{vendor_id}`
+- `POST /api/v1/auth/send-otp` and `POST /api/v1/auth/verify-otp`
+- Authenticated cart, wishlist, checkout, order-history, tracking, and cancellation endpoints
