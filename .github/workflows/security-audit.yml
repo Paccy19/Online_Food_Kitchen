@@ -1,0 +1,36 @@
+# Checks the backend and frontend packages for known vulnerabilities:
+# on every push to main, on pull requests, and every Monday (new advisories
+# appear all the time, even when the code doesn't change). Fails on high or
+# critical issues, so GitHub emails the repository owner.
+name: Security audit
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    - cron: '0 6 * * 1' # Mondays 06:00 UTC (08:00 in Kigali)
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  npm-audit:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        folder: [backend, frontend]
+    defaults:
+      run:
+        working-directory: ${{ matrix.folder }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Known vulnerabilities in production packages (high or critical)
+        run: npm audit --omit=dev --audit-level=high
+      - name: All packages, for information (does not fail the check)
+        run: npm audit || true
